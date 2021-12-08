@@ -6,6 +6,7 @@
             :key="n"
             :label="`Image ${n}`"
             :value="n"
+            color="amber accent-2"
           ></v-radio>
         </v-radio-group>
       </v-container>

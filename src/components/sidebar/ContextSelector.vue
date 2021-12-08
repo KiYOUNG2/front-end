@@ -4,7 +4,7 @@
       <v-checkbox
         v-model="ex4"
         label="Context 1"
-        color="primary"
+        color="amber accent-2"
         value="primary"
         hide-details
       >
@@ -12,7 +12,7 @@
       <v-checkbox
         v-model="ex4"
         label="Context 2"
-        color="secondary"
+        color="amber accent-2"
         value="secondary"
         hide-details
       >
@@ -20,7 +20,7 @@
       <v-checkbox
         v-model="ex4"
         label="Context 3"
-        color="success"
+        color="amber accent-2"
         value="success"
         hide-details
       >
@@ -28,7 +28,7 @@
       <v-checkbox
         v-model="ex4"
         label="Context 4"
-        color="info"
+        color="amber accent-2"
         value="info"
         hide-details
       >
