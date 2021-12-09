@@ -18,7 +18,7 @@
                   >
                   </v-text-field>
                   <!-- 팝업창 -->
-                  <Popup />
+                  <Popup v-on:uploadImage="addImage('user', $event)" />
                   <!-- 메세지 보내기 버튼 -->
                   <v-btn icon class="ml-4" @click="send">
                     <v-icon>mdi-send</v-icon>
@@ -62,6 +62,7 @@ export default {
       this.chat.push({
         from: "user",
         msg: this.msg,
+        img: null,
       });
       const payload = { question: this.msg };
       const url = "http://127.0.0.1:5000/answer-question";
@@ -82,6 +83,14 @@ export default {
       this.chat.push({
         from: "kiyoung2",
         msg: msg,
+        img: null,
+      });
+    },
+    addImage(from, img_src) {
+      this.chat.push({
+        from: from,
+        msg: null,
+        img: img_src,
       });
     },
   },

@@ -145,6 +145,11 @@ export default {
       var fd = new FormData();
       fd.append("files", this.files);
 
+      if (this.files.type.startsWith('image/')){
+        const img_src = window.URL.createObjectURL(this.files);
+        this.$emit('uploadImage', img_src)
+      }
+
       await axios
         .post("http://127.0.0.1:5000/upload", fd, {
           headers: {
