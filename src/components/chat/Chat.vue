@@ -54,8 +54,10 @@ export default {
     items: ["context", "image", "audio"],
   }),
   mounted: function () {
-    this.addReply("안녕하세요! 기영이 봇 입니다~");
-    this.addReply("무엇이 궁금하신가요?");
+    this.addImage("kiyoung2", require("../../assets/image/kiyoung2.png"))
+    this.addReply("안녕! 반가워😍 나는 기영이라고 해~");
+    this.addReply("모르는게 있으면 물어봐!");
+    this.addReply("나 꽤나 똑똑하다고~");
   },
   methods: {
     send: async function () {
