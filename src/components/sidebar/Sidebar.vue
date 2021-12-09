@@ -29,8 +29,6 @@
         </div>
       </v-list-item>
     </v-list>
-    <!-- <ImageSelector /> -->
-    <!-- <ContextSelector /> -->
   </v-container>
 </template>
 

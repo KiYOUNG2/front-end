@@ -20,7 +20,7 @@ export default {
   name: "ImageSelector",
   data: () => ({
     radioGroup: 1,
-    get_context = null,
+    get_context: null,
   }),
   created() {
     eventBus.$on("context", (context) => {
