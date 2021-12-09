@@ -10,7 +10,7 @@
             item.from == 'user' ? 'justify-end' : null,
           ]"
         >
-          <span v-if="item.from == 'user'" class="blue--text mr-3">{{
+          <span v-if="item.from == 'user' && item.msg != null" class="blue--text mr-3" style="max-width: 60%; text-align: right;">{{
             item.msg
           }}</span>
           <v-avatar
@@ -19,7 +19,7 @@
           >
             <span class="white--text">{{ item.from[0] }}</span>
           </v-avatar>
-          <span v-if="item.from != 'user'" class="blue--text ml-3">{{
+          <span v-if="item.from != 'user' && item.msg != null" class="blue--text ml-3" style="max-width: 60%; text-align: left;">{{
             item.msg
           }}</span>
         </div>
