@@ -102,6 +102,9 @@
 </template>
 
 <script>
+import Vue from "vue";
+var eventBus = new Vue();
+
 export default {
   name: "Popup",
   computed: {
@@ -138,9 +141,11 @@ export default {
     },
     uploadFile(file) {
       this.files.push(file);
+      eventBus.$emit("file", "this.file");
     },
     uploadText(context) {
       this.contexts.push(context);
+      eventBus.$emit("context", "this.context");
     },
   },
 };

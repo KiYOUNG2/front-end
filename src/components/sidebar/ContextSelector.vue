@@ -38,10 +38,19 @@
 </template>
 
 <script>
+import Vue from "vue";
+var eventBus = new Vue();
+
 export default {
   name: "ContextSelector",
   data: () => ({
     ex4: ["primary", "secondary", "success"],
+    get_image: null,
   }),
+  created() {
+    eventBus.$on("file", (file) => {
+      this.get_image = file;
+    });
+  },
 };
 </script>
