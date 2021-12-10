@@ -2,6 +2,7 @@
   <v-container dense>
     <v-radio-group v-model="radioGroup">
       <v-radio
+        :disabled="get_context != null"
         v-for="n in 3"
         :key="n"
         :label="`Image ${n}`"

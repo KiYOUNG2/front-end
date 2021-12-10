@@ -83,7 +83,7 @@
                   <v-btn text @click="dialog.value = false">Close </v-btn>
                   <v-spacer></v-spacer>
                   <v-btn
-                    :disabled="FileIsValid < 1"
+                    :disabled="FileIsValid==null"
                     text
                     color="black"
                     type="submit"
@@ -112,7 +112,7 @@ export default {
       return this.context;
     },
     FileIsValid() {
-      return this.file.length;
+      return this.file;
     },
   },
   data: () => ({
@@ -120,7 +120,7 @@ export default {
     text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     context: "",
     contexts: [],
-    file: [],
+    file: null,
     files: [],
     snackbar: false,
     rules: [
@@ -141,11 +141,11 @@ export default {
     },
     uploadFile(file) {
       this.files.push(file);
-      eventBus.$emit("file", "this.file");
+      eventBus.$emit("file", file);
     },
     uploadText(context) {
       this.contexts.push(context);
-      eventBus.$emit("context", "this.context");
+      eventBus.$emit("context", context);
     },
   },
 };

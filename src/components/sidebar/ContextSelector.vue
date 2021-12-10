@@ -2,34 +2,30 @@
   <v-container dense>
     <v-row class="mt-12">
       <v-checkbox
-        v-model="ex4"
+        :disabled="get_image != null"
         label="Context 1"
         color="amber accent-2"
-        value="primary"
         hide-details
       >
       </v-checkbox>
       <v-checkbox
-        v-model="ex4"
+        :disabled="get_image != null"
         label="Context 2"
         color="amber accent-2"
-        value="secondary"
         hide-details
       >
       </v-checkbox>
       <v-checkbox
-        v-model="ex4"
+        :disabled="get_image != null"
         label="Context 3"
         color="amber accent-2"
-        value="success"
         hide-details
       >
       </v-checkbox>
       <v-checkbox
-        v-model="ex4"
+        :disabled="get_image != null"
         label="Context 4"
         color="amber accent-2"
-        value="info"
         hide-details
       >
       </v-checkbox>
@@ -44,7 +40,6 @@ var eventBus = new Vue();
 export default {
   name: "ContextSelector",
   data: () => ({
-    ex4: ["primary", "secondary", "success"],
     get_image: null,
   }),
   created() {
