@@ -10,7 +10,7 @@
       </v-img>
     </template>
     <v-card>
-      <v-img :src="item.img"></v-img>
+      <v-img :src="item.img" @click="dialog = false"></v-img>
     </v-card>
   </v-dialog>
 </template>
