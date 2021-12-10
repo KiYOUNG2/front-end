@@ -34,8 +34,8 @@
 </template>
 
 <script>
-import Message from './Message.vue';
-import Popup from './Popup.vue';
+import Message from "./Message.vue";
+import Popup from "./Popup.vue";
 
 import axios from "axios";
 axios.defaults.xsrfCookieName = "csrftoken";
@@ -45,8 +45,8 @@ axios.defaults.xsrfHeaderName = "X-CSRFToken";
 export default {
   name: "Chat",
   components: {
-      Message,
-      Popup,
+    Message,
+    Popup,
   },
   data: () => ({
     chat: [],
@@ -54,7 +54,7 @@ export default {
     items: ["context", "image", "audio"],
   }),
   mounted: function () {
-    this.addImage("kiyoung2", require("../../assets/image/kiyoung2.png"))
+    this.addImage("kiyoung2", require("../../assets/image/kiyoung2.png"));
     this.addReply("안녕! 반가워😍 나는 기영이라고 해~");
     this.addReply("모르는게 있으면 물어봐!");
     this.addReply("나 꽤나 똑똑하다고~");

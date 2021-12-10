@@ -145,9 +145,9 @@ export default {
       var fd = new FormData();
       fd.append("files", this.files);
 
-      if (this.files.type.startsWith('image/')){
+      if (this.files.type.startsWith("image/")) {
         const img_src = window.URL.createObjectURL(this.files);
-        this.$emit('uploadImage', img_src)
+        this.$emit("uploadImage", img_src);
       }
 
       await axios
