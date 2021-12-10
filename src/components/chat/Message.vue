@@ -13,8 +13,7 @@
           <span v-if="item.from == 'user' && item.msg != null" class="blue--text mr-3" style="max-width: 60%; text-align: right;">{{
             item.msg
           }}</span>
-          <v-img v-if="item.from == 'user' && item.img != null" style="max-width: 35%; margin-right: 1%;" :src="item.img">
-          </v-img>
+          <ZoomImage v-if="item.from == 'user' && item.img != null" v-bind:item="item" />
           <v-avatar
             :color="item.from == 'user' ? 'grey' : 'amber accent-2'"
             size="36"
@@ -24,8 +23,7 @@
           <span v-if="item.from != 'user' && item.msg != null" class="blue--text ml-3" style="max-width: 60%; text-align: left;">{{
             item.msg
           }}</span>
-          <v-img v-if="item.from != 'user' && item.img != null" style="max-width: 35%; margin-left: 1%;" :src="item.img">
-          </v-img>
+          <ZoomImage v-if="item.from != 'user' && item.img != null" v-bind:item="item" />
         </div>
       </v-col>
     </v-row>
@@ -33,8 +31,13 @@
 </template>
 
 <script>
+import ZoomImage from './ZoomImage.vue';
+
 export default {
   name: "Message",
+  components: {
+      ZoomImage,
+  },
   props: ["chat"],
 };
 </script>
