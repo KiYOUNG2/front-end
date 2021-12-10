@@ -141,6 +141,12 @@ export default {
     },
     uploadFile(file) {
       this.files.push(file);
+
+      if (file.type.startsWith("image/")) {
+        const img_src = window.URL.createObjectURL(file);
+        this.$emit("uploadImage", img_src);
+      }
+
       eventBus.$emit("file", file);
     },
     uploadText(context) {
