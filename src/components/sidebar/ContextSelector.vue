@@ -2,34 +2,30 @@
   <v-container dense>
     <v-row class="mt-12">
       <v-checkbox
-        v-model="ex4"
+        :disabled="get_image != null"
         label="Context 1"
-        color="primary"
-        value="primary"
+        color="amber accent-2"
         hide-details
       >
       </v-checkbox>
       <v-checkbox
-        v-model="ex4"
+        :disabled="get_image != null"
         label="Context 2"
-        color="secondary"
-        value="secondary"
+        color="amber accent-2"
         hide-details
       >
       </v-checkbox>
       <v-checkbox
-        v-model="ex4"
+        :disabled="get_image != null"
         label="Context 3"
-        color="success"
-        value="success"
+        color="amber accent-2"
         hide-details
       >
       </v-checkbox>
       <v-checkbox
-        v-model="ex4"
+        :disabled="get_image != null"
         label="Context 4"
-        color="info"
-        value="info"
+        color="amber accent-2"
         hide-details
       >
       </v-checkbox>
@@ -38,10 +34,18 @@
 </template>
 
 <script>
+import Vue from "vue";
+var eventBus = new Vue();
+
 export default {
   name: "ContextSelector",
   data: () => ({
-    ex4: ["primary", "secondary", "success"],
+    get_image: null,
   }),
+  created() {
+    eventBus.$on("file", (file) => {
+      this.get_image = file;
+    });
+  },
 };
 </script>
