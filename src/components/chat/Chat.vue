@@ -36,11 +36,11 @@
 <script>
 import Message from "./Message.vue";
 import Popup from "./Popup.vue";
+import eventBus from '../../main.js'
 
 import axios from "axios";
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
-//const base_url = window.location.href;
 
 export default {
   name: "Chat",
@@ -52,12 +52,21 @@ export default {
     chat: [],
     msg: null,
     items: ["context", "image", "audio"],
+    knowledge : null,
   }),
   mounted: function () {
     this.addImage("kiyoung2", require("../../assets/image/kiyoung2.png"));
     this.addReply("안녕! 반가워😍 나는 기영이라고 해~");
     this.addReply("모르는게 있으면 물어봐!");
     this.addReply("나 꽤나 똑똑하다고~");
+  },
+  created() {
+    eventBus.$on("get_image", function(checkbox) {
+      this.knowledge = checkbox;
+    }),
+    eventBus.$on("get_context", function(checkbox) {
+      this.knowledge = checkbox;
+    })
   },
   methods: {
     send: async function () {
@@ -66,13 +75,14 @@ export default {
         msg: this.msg,
         img: null,
       });
-      const payload = { question: this.msg };
+      const payload = { question: this.msg, knowledge: this.knowledge };
       const url = "http://127.0.0.1:5000/answer-question";
       const headers = {
         "Content-Type": "application/json",
       };
-
+      eventBus.$emit("get_query", this.msg);
       this.msg = null;
+      this.knowledge = null;
       await axios.post(url, payload, { headers: headers }).then((response) => {
         console.log(response.data);
         this.answer = response.data;
