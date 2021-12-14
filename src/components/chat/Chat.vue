@@ -36,7 +36,7 @@
 <script>
 import Message from "./Message.vue";
 import Popup from "./Popup.vue";
-import eventBus from '../../main.js'
+import eventBus from "../../main.js";
 
 import axios from "axios";
 axios.defaults.xsrfCookieName = "csrftoken";
@@ -52,7 +52,8 @@ export default {
     chat: [],
     msg: null,
     items: ["context", "image", "audio"],
-    knowledge : null,
+    knowledge_name: null,
+    knowledge_cache: null,
   }),
   mounted: function () {
     this.addImage("kiyoung2", require("../../assets/image/kiyoung2.png"));
@@ -61,12 +62,18 @@ export default {
     this.addReply("나 꽤나 똑똑하다고~");
   },
   created() {
-    eventBus.$on("get_image", function(checkbox) {
-      this.knowledge = checkbox;
+    eventBus.$on("get_image", function (checkbox) {
+      this.knowledge_name = checkbox;
     }),
-    eventBus.$on("get_context", function(checkbox) {
-      this.knowledge = checkbox;
-    })
+      eventBus.$on("get_context", function (checkbox) {
+        this.knowledge_name = checkbox;
+      }),
+      eventBus.$on("context_cache", function (contexts) {
+        this.knowledge_cache = contexts;
+      }),
+      eventBus.$on("img_cache", function (files) {
+        this.knowledge_cache = files;
+      });
   },
   methods: {
     send: async function () {
@@ -75,14 +82,18 @@ export default {
         msg: this.msg,
         img: null,
       });
-      const payload = { question: this.msg, knowledge: this.knowledge };
+      const payload = {
+        question: this.msg,
+        knowledge: this.knowledge_cache.find(
+          (v) => v.name == this.knowledge_name
+        ),
+      };
       const url = "http://127.0.0.1:5000/answer-question";
       const headers = {
         "Content-Type": "application/json",
       };
-      eventBus.$emit("get_query", this.msg);
       this.msg = null;
-      this.knowledge = null;
+      this.knowledge_name = null;
       await axios.post(url, payload, { headers: headers }).then((response) => {
         console.log(response.data);
         this.answer = response.data;

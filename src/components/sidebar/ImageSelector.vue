@@ -1,35 +1,40 @@
 <template>
   <v-container dense>
     <v-row class="mt-12">
-      <v-checkbox v-model="checkbox"
+      <v-checkbox
+        v-model="checkbox"
         label="Image 1"
         color="amber accent-2"
         hide-details
         value="Image 1"
       >
       </v-checkbox>
-      <v-checkbox v-model="checkbox"
+      <v-checkbox
+        v-model="checkbox"
         label="Image 2"
         color="amber accent-2"
         hide-details
         value="Image 2"
       >
       </v-checkbox>
-      <v-checkbox v-model="checkbox"
+      <v-checkbox
+        v-model="checkbox"
         label="Image 3"
         color="amber accent-2"
         hide-details
         value="Image 3"
       >
       </v-checkbox>
-      <v-checkbox v-model="checkbox"
+      <v-checkbox
+        v-model="checkbox"
         label="Image 4"
         color="amber accent-2"
         hide-details
         value="Image 4"
       >
       </v-checkbox>
-      <v-checkbox v-model="checkbox"
+      <v-checkbox
+        v-model="checkbox"
         label="Image 5"
         color="amber accent-2"
         hide-details
@@ -43,6 +48,7 @@
         small
         color="grey-1"
         dark
+        type="summit"
         @click="get_image(checkbox)"
       >
         Select
@@ -54,24 +60,32 @@
 
 
 <script>
-import eventBus from '../../main.js'
+import eventBus from "../../main.js";
 
 export default {
   name: "ImageSelector",
   data: () => ({
     radioGroup: 1,
     get_context: null,
-    checkbox : null,
+    checkbox: null,
+    file_name: null,
+    img_cache: null,
   }),
   created() {
-    eventBus.$on("get_context", function(checkbox) {
-      this.get_context = checkbox
-    })
+    eventBus.$on("get_context", function (checkbox) {
+      this.get_context = checkbox;
+    }),
+      eventBus.$on("img_file", function (file) {
+        this.file_name = file.name.split(".")[0];
+      }),
+      eventBus.$on("img_cache", function (files) {
+        this.img_cache = files;
+      });
   },
   methods: {
     get_image(checkbox) {
       eventBus.$emit("get_image", checkbox);
     },
-  }
+  },
 };
 </script>

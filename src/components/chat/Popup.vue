@@ -70,7 +70,7 @@
                       <v-file-input
                         v-model="file"
                         :rules="rules"
-                        accept="image/png, image/jpeg, image/bmp, audio/wav, video/mp4"
+                        accept="image/png, image/jpeg, image/jpg, .doc, .txt"
                         placeholder="Pick an file"
                         prepend-icon="mdi-paperclip"
                         label="File"
@@ -83,7 +83,7 @@
                   <v-btn text @click="dialog.value = false">Close </v-btn>
                   <v-spacer></v-spacer>
                   <v-btn
-                    :disabled="FileIsValid==null"
+                    :disabled="FileIsValid == null"
                     text
                     color="black"
                     type="submit"
@@ -102,8 +102,7 @@
 </template>
 
 <script>
-import Vue from "vue";
-var eventBus = new Vue();
+import eventBus from "../../main.js";
 
 export default {
   name: "Popup",
@@ -140,18 +139,22 @@ export default {
       this.resetForm();
     },
     uploadFile(file) {
-      this.files.push(file);
-
       if (file.type.startsWith("image/")) {
         const img_src = window.URL.createObjectURL(file);
         this.$emit("uploadImage", img_src);
+        this.files.push(file);
+        eventBus.$emit("img_file", file);
+        eventBus.$emit("img_cache", this.files);
+      } else {
+        this.contexts.push(file);
+        eventBus.$emit("context_file", file);
+        eventBus.$emit("context_cache", this.contexts);
       }
-
-      eventBus.$emit("file", file);
     },
     uploadText(context) {
       this.contexts.push(context);
-      eventBus.$emit("context", context);
+      eventBus.$emit("context_typing", context);
+      eventBus.$emit("context_cache", this.contexts);
     },
   },
 };
