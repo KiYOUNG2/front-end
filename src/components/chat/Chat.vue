@@ -76,8 +76,12 @@ export default {
       await axios.post(url, payload, { headers: headers }).then((response) => {
         console.log(response.data);
         this.answer = response.data;
-        this.answer.forEach(function (element) {
-          this.addReply(element);
+        this.answer.forEach(function (element, index) {
+          if (index == 0) {
+            this.addReply(element);
+          } else {
+            setTimeout(this.addReply, 1000, element);
+          }
         }, this);
       });
     },
