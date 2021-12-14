@@ -74,7 +74,6 @@ export default {
 
       this.msg = null;
       await axios.post(url, payload, { headers: headers }).then((response) => {
-        console.log(response.data);
         this.answer = response.data;
         this.answer.forEach(function (element, index) {
           if (index == 0) {
