@@ -1,6 +1,9 @@
 <template>
   <v-container>
-    <section style="height: 700px; overflow-y: auto; overflow-x: hidden">
+    <section
+      style="height: 700px; overflow-y: auto; overflow-x: hidden"
+      ref="messagesContainer"
+    >
       <div
         align="end"
         style="padding: 1%"
@@ -61,6 +64,9 @@ export default {
     ZoomImage,
   },
   props: ["chat"],
+  updated() {
+    this.$nextTick(() => this.scrollToEnd());
+  },
   methods: {
     getProfileImage(from) {
       if (from == "user") {
@@ -68,6 +74,10 @@ export default {
       } else {
         return require("@/assets/image/profile_kiyoung.png");
       }
+    },
+    scrollToEnd: function () {
+      var content = this.$refs.messagesContainer;
+      content.scrollTop = content.scrollHeight;
     },
   },
 };
