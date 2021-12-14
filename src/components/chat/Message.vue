@@ -16,12 +16,16 @@
       >
         <v-row class="flex-column" v-if="item.from == 'user'">
           <v-col :class="['d-flex child-flex', 'justify-end']">
-            <span>{{ item.from }}</span>
+            <span style="font-family: 'Roboto Slab', serif">{{
+              item.from
+            }}</span>
           </v-col>
           <v-col :class="['d-flex', 'justify-end']">
             <span
               v-if="item.msg != null"
               style="
+                font-family: 'Gamja Flower', cursive;
+                font-size: x-large;
                 max-width: 60%;
                 text-align: right;
                 border-radius: 10px;
@@ -44,12 +48,16 @@
         </v-col>
         <v-row class="flex-column" v-if="item.from != 'user'">
           <v-col class="d-flex child-flex">
-            <span style="text-align: left">{{ item.from }}</span>
+            <span style="font-family: 'Roboto Slab', serif; text-align: left">{{
+              item.from
+            }}</span>
           </v-col>
           <v-col class="d-flex">
             <span
               v-if="item.msg != null"
               style="
+                font-family: 'Gamja Flower', cursive;
+                font-size: x-large;
                 max-width: 60%;
                 text-align: left;
                 border-radius: 10px;
@@ -94,3 +102,8 @@ export default {
   },
 };
 </script>
+
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap");
+</style>
