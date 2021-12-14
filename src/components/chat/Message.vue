@@ -18,11 +18,17 @@
           <v-col :class="['d-flex child-flex', 'justify-end']">
             <span>{{ item.from }}</span>
           </v-col>
-          <v-col :class="['d-flex child-flex', 'justify-end']">
+          <v-col :class="['d-flex', 'justify-end']">
             <span
               v-if="item.msg != null"
-              class="blue--text mr-3"
-              style="max-width: 60%; text-align: right"
+              style="
+                max-width: 60%;
+                text-align: right;
+                border-radius: 10px;
+                padding: 0.5em;
+                background: #f1f0f0;
+                color: black;
+              "
               >{{ item.msg }}</span
             >
             <ZoomImage v-if="item.img != null" v-bind:item="item" />
@@ -40,11 +46,17 @@
           <v-col class="d-flex child-flex">
             <span style="text-align: left">{{ item.from }}</span>
           </v-col>
-          <v-col class="d-flex child-flex">
+          <v-col class="d-flex">
             <span
               v-if="item.msg != null"
-              class="blue--text ml-3"
-              style="max-width: 60%; text-align: left"
+              style="
+                max-width: 60%;
+                text-align: left;
+                border-radius: 10px;
+                padding: 0.5em;
+                background: #ffc400;
+                color: white;
+              "
               >{{ item.msg }}</span
             >
             <ZoomImage v-if="item.img != null" v-bind:item="item" />
