@@ -18,7 +18,7 @@
                   >
                   </v-text-field>
                   <!-- 팝업창 -->
-                  <Popup v-on:uploadImage="addImage('user', $event)" />
+                  <Popup />
                   <!-- 메세지 보내기 버튼 -->
                   <v-btn icon class="ml-4" @click="send">
                     <v-icon>mdi-send</v-icon>
