@@ -50,16 +50,18 @@ export default {
   },
   data: () => ({
     chat: [],
+    user_name: "user",
+    bot_name: "kiyoung2",
     msg: null,
     items: ["context", "image", "audio"],
     knowledge_name: null,
     knowledge_cache: null,
   }),
   mounted: function () {
-    this.addImage("kiyoung2", require("../../assets/image/kiyoung2.png"));
-    this.addReply("안녕! 반가워😍 나는 기영이라고 해~");
-    this.addReply("모르는게 있으면 물어봐!");
-    this.addReply("나 꽤나 똑똑하다고~");
+    this.addImage(this.bot_name, require("../../assets/image/kiyoung2.png"));
+    this.addMessage(this.bot_name, "안녕! 반가워😍 나는 기영이라고 해~");
+    this.addMessage(this.bot_name, "모르는게 있으면 물어봐!");
+    this.addMessage(this.bot_name, "나 꽤나 똑똑하다고~");
   },
   created() {
     eventBus.$on("get_image", function (checkbox) {
@@ -77,11 +79,7 @@ export default {
   },
   methods: {
     send: async function () {
-      this.chat.push({
-        from: "user",
-        msg: this.msg,
-        img: null,
-      });
+      this.addMessage(this.user_name, this.msg);
       const payload = {
         question: this.msg,
         knowledge: this.knowledge_cache.find(
@@ -98,13 +96,13 @@ export default {
         console.log(response.data);
         this.answer = response.data;
         this.answer.forEach(function (element) {
-          this.addReply(element);
+          this.addMessage(this.bot_name, element);
         }, this);
       });
     },
-    addReply(msg) {
+    addMessage(from, msg) {
       this.chat.push({
-        from: "kiyoung2",
+        from: from,
         msg: msg,
         img: null,
       });
