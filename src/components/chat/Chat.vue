@@ -86,19 +86,17 @@ export default {
   methods: {
     send: async function () {
       this.addMessage(this.user_name, this.msg);
-      const payload = {
-        question: this.msg,
-        knowledge: this.knowledge_cache.find(
-          (v) => v.name == this.knowledge_name
-        ),
-      };
-      const url = "http://127.0.0.1:5000/answer-question";
+      let formData = new FormData();
+      formData.append("query", this.msg);
+      formData.append("document", this.document);
+      formData.append("image", this.image);
+
+      const url = "http://localhost:8000/chat";
       const headers = {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
       };
       this.msg = null;
-      this.knowledge_name = null;
-      await axios.post(url, payload, { headers: headers }).then((response) => {
+      await axios.post(url, formData, { headers: headers }).then((response) => {
         console.log(response.data);
         this.answer = response.data;
         this.answer.forEach(function (element) {
