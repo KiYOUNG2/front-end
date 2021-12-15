@@ -1,63 +1,19 @@
 <template>
-  <v-container dense>
-    <v-row class="mt-12">
-      <v-checkbox
-        v-model="checkbox"
-        label="Image 1"
-        color="amber accent-2"
-        hide-details
-        value="Image 1"
-      >
-      </v-checkbox>
-      <v-checkbox
-        v-model="checkbox"
-        label="Image 2"
-        color="amber accent-2"
-        hide-details
-        value="Image 2"
-      >
-      </v-checkbox>
-      <v-checkbox
-        v-model="checkbox"
-        label="Image 3"
-        color="amber accent-2"
-        hide-details
-        value="Image 3"
-      >
-      </v-checkbox>
-      <v-checkbox
-        v-model="checkbox"
-        label="Image 4"
-        color="amber accent-2"
-        hide-details
-        value="Image 4"
-      >
-      </v-checkbox>
-      <v-checkbox
-        v-model="checkbox"
-        label="Image 5"
-        color="amber accent-2"
-        hide-details
-        value="Image 5"
-      >
-      </v-checkbox>
-    </v-row>
-    <div class="my-2">
-      <v-btn
-        :disabled="this.get_context != null"
-        small
-        color="grey-1"
-        dark
-        type="summit"
-        @click="get_image(checkbox)"
-      >
-        Select
-      </v-btn>
-    </div>
+  <v-container dense :style="highlight">
+    <v-autocomplete
+      v-model="value"
+      :data="value"
+      :items="img_cache_names"
+      dense
+      solo
+      filled
+      clearable
+      deletable-chips
+      label="Select a image"
+      @change="select_context()"
+    ></v-autocomplete>
   </v-container>
 </template>
-
-
 
 <script>
 import eventBus from "../../main.js";
@@ -65,26 +21,46 @@ import eventBus from "../../main.js";
 export default {
   name: "ImageSelector",
   data: () => ({
-    radioGroup: 1,
-    get_context: null,
-    checkbox: null,
-    file_name: null,
-    img_cache: null,
+    img_cache: [],
+    img_cache_names: [],
+    value: null,
+    highlight: {
+      backgroundColor: "#ffffff",
+    },
   }),
   created() {
-    eventBus.$on("get_context", function (checkbox) {
-      this.get_context = checkbox;
-    }),
-      eventBus.$on("img_file", function (file) {
-        this.file_name = file.name.split(".")[0];
-      }),
-      eventBus.$on("img_cache", function (files) {
-        this.img_cache = files;
+    eventBus.$on("context", (type) => {
+      if (type == "document") {
+        this.highlight.backgroundColor = "#ffffff";
+      } else {
+        this.highlight.backgroundColor = "#f0f4c3";
+      }
+    });
+    eventBus.$on("img_cache", (files) => {
+      this.img_cache = files;
+      this.img_cache_names = [];
+      this.img_cache.forEach((element) => {
+        this.img_cache_names.push(element.name);
       });
+      this.value = this.img_cache_names[this.img_cache_names.length - 1];
+      this.send_context();
+    });
   },
   methods: {
-    get_image(checkbox) {
-      eventBus.$emit("get_image", checkbox);
+    select_context() {
+      this.send_context();
+      this.highlight.backgroundColor = "#f0f4c3";
+    },
+    send_context() {
+      if (this.value == null) {
+        eventBus.$emit("context", "image", null);
+      } else {
+        this.img_cache.forEach((element) => {
+          if (element.name == this.value) {
+            eventBus.$emit("context", "image", element);
+          }
+        });
+      }
     },
   },
 };

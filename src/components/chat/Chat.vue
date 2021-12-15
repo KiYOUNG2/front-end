@@ -53,9 +53,9 @@ export default {
     user_name: "user",
     bot_name: "kiyoung2",
     msg: null,
-    items: ["context", "image", "audio"],
-    knowledge_name: null,
-    knowledge_cache: null,
+    context_type: null,
+    image: null,
+    document: null,
   }),
   mounted: function () {
     this.addImage(this.bot_name, require("../../assets/image/kiyoung2.png"));
@@ -64,18 +64,24 @@ export default {
     this.addMessage(this.bot_name, "나 꽤나 똑똑하다고~");
   },
   created() {
-    eventBus.$on("get_image", function (checkbox) {
-      this.knowledge_name = checkbox;
-    }),
-      eventBus.$on("get_context", function (checkbox) {
-        this.knowledge_name = checkbox;
-      }),
-      eventBus.$on("context_cache", function (contexts) {
-        this.knowledge_cache = contexts;
-      }),
-      eventBus.$on("img_cache", function (files) {
-        this.knowledge_cache = files;
-      });
+    eventBus.$on("context", (type, context) => {
+      this.context_type = type;
+      if (this.context_type == "image") {
+        this.image = context;
+        this.document = null;
+        if (this.image != null) {
+          const img_src = window.URL.createObjectURL(this.image);
+          this.addImage(this.user_name, img_src);
+        }
+      } else {
+        this.image = null;
+        this.document = "";
+        context.forEach((element) => {
+          this.addMessage(this.user_name, element);
+          this.document += element + " ";
+        });
+      }
+    });
   },
   methods: {
     send: async function () {

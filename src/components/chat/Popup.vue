@@ -30,7 +30,7 @@
                   <v-row>
                     <v-col cols="12">
                       <v-textarea
-                        v-model="context"
+                        v-model="document"
                         color="black"
                         maxlength="1000"
                       >
@@ -45,11 +45,11 @@
                   <v-btn text @click="dialog.value = false">Close</v-btn>
                   <v-spacer></v-spacer>
                   <v-btn
-                    :disabled="!ContextIsValid"
+                    :disabled="!DocumentIsValid"
                     text
                     color="black"
                     type="submit"
-                    @click="uploadText(context)"
+                    @click="uploadText(document)"
                   >
                     Upload
                   </v-btn>
@@ -107,8 +107,8 @@ import eventBus from "../../main.js";
 export default {
   name: "Popup",
   computed: {
-    ContextIsValid() {
-      return this.context;
+    DocumentIsValid() {
+      return this.document;
     },
     FileIsValid() {
       return this.file;
@@ -116,9 +116,8 @@ export default {
   },
   data: () => ({
     tabs: null,
-    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    context: "",
-    contexts: [],
+    document: "",
+    documents: [],
     file: null,
     files: [],
     snackbar: false,
@@ -141,18 +140,18 @@ export default {
     uploadFile(file) {
       if (file.type.startsWith("image/")) {
         this.files.push(file);
-        eventBus.$emit("img_file", file);
         eventBus.$emit("img_cache", this.files);
       } else {
-        this.contexts.push(file);
-        eventBus.$emit("context_file", file);
-        eventBus.$emit("context_cache", this.contexts);
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.uploadText(e.target.result);
+        };
+        reader.readAsText(file);
       }
     },
-    uploadText(context) {
-      this.contexts.push(context);
-      eventBus.$emit("context_typing", context);
-      eventBus.$emit("context_cache", this.contexts);
+    uploadText(document) {
+      this.documents.push(document);
+      eventBus.$emit("doc_cache", this.documents);
     },
   },
 };
