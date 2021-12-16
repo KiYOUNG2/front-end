@@ -55,9 +55,9 @@ export default {
   }),
   mounted: function () {
     this.addImage("kiyoung2", require("../../assets/image/kiyoung2.png"));
-    this.addReply("안녕! 반가워😍 나는 기영이라고 해~");
-    this.addReply("모르는게 있으면 물어봐!");
-    this.addReply("나 꽤나 똑똑하다고~");
+    setTimeout(this.addReply, 1000, "안녕! 반가워😍 나는 기영이라고 해~");
+    setTimeout(this.addReply, 2000, "모르는게 있으면 물어봐!");
+    setTimeout(this.addReply, 3000, "나 꽤나 똑똑하다고~");
   },
   methods: {
     send: async function () {
@@ -74,10 +74,13 @@ export default {
 
       this.msg = null;
       await axios.post(url, payload, { headers: headers }).then((response) => {
-        console.log(response.data);
         this.answer = response.data;
-        this.answer.forEach(function (element) {
-          this.addReply(element);
+        this.answer.forEach(function (element, index) {
+          if (index == 0) {
+            this.addReply(element);
+          } else {
+            setTimeout(this.addReply, 1000, element);
+          }
         }, this);
       });
     },
