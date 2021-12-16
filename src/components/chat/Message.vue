@@ -1,9 +1,6 @@
 <template>
   <v-container>
-    <section
-      style="height: 700px; overflow-y: auto; overflow-x: hidden"
-      ref="messagesContainer"
-    >
+    <section style="height: 700px; overflow-y: auto; overflow-x: hidden">
       <div
         align="end"
         style="padding: 1%"
@@ -16,23 +13,13 @@
       >
         <v-row class="flex-column" v-if="item.from == 'user'">
           <v-col :class="['d-flex child-flex', 'justify-end']">
-            <span style="font-family: 'Roboto Slab', serif">{{
-              item.from
-            }}</span>
+            <span>{{ item.from }}</span>
           </v-col>
-          <v-col :class="['d-flex', 'justify-end']">
+          <v-col :class="['d-flex child-flex', 'justify-end']">
             <span
               v-if="item.msg != null"
-              style="
-                font-family: 'Gamja Flower', cursive;
-                font-size: x-large;
-                max-width: 60%;
-                text-align: right;
-                border-radius: 10px;
-                padding: 0.5em;
-                background: #f1f0f0;
-                color: black;
-              "
+              class="blue--text mr-3"
+              style="max-width: 60%; text-align: right"
               >{{ item.msg }}</span
             >
             <ZoomImage v-if="item.img != null" v-bind:item="item" />
@@ -48,23 +35,13 @@
         </v-col>
         <v-row class="flex-column" v-if="item.from != 'user'">
           <v-col class="d-flex child-flex">
-            <span style="font-family: 'Roboto Slab', serif; text-align: left">{{
-              item.from
-            }}</span>
+            <span style="text-align: left">{{ item.from }}</span>
           </v-col>
-          <v-col class="d-flex">
+          <v-col class="d-flex child-flex">
             <span
               v-if="item.msg != null"
-              style="
-                font-family: 'Gamja Flower', cursive;
-                font-size: x-large;
-                max-width: 60%;
-                text-align: left;
-                border-radius: 10px;
-                padding: 0.5em;
-                background: #ffc400;
-                color: white;
-              "
+              class="blue--text ml-3"
+              style="max-width: 60%; text-align: left"
               >{{ item.msg }}</span
             >
             <ZoomImage v-if="item.img != null" v-bind:item="item" />
@@ -84,9 +61,6 @@ export default {
     ZoomImage,
   },
   props: ["chat"],
-  updated() {
-    this.$nextTick(() => this.scrollToEnd());
-  },
   methods: {
     getProfileImage(from) {
       if (from == "user") {
@@ -95,15 +69,6 @@ export default {
         return require("@/assets/image/profile_kiyoung.png");
       }
     },
-    scrollToEnd: function () {
-      var content = this.$refs.messagesContainer;
-      content.scrollTop = content.scrollHeight;
-    },
   },
 };
 </script>
-
-<style>
-@import url("https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap");
-</style>
