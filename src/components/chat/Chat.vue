@@ -88,8 +88,8 @@ export default {
       this.addMessage(this.user_name, this.msg);
       let formData = new FormData();
       formData.append("query", this.msg);
-      formData.append("document", this.document);
-      formData.append("image", this.image);
+      formData.append("document", this.document === null ? "" : this.document);
+      formData.append("image", this.image === null ? "" : this.image);
 
       const url = "http://localhost:8000/chat";
       const headers = {
