@@ -96,6 +96,8 @@ export default {
         "Content-Type": "multipart/form-data",
       };
       this.msg = null;
+      this.image = null;
+      this.document = null;
       await axios.post(url, formData, { headers: headers }).then((response) => {
         console.log(response.data);
         this.answer = response.data;
