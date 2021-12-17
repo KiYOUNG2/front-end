@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <section style="height: 700px; overflow-y: auto; overflow-x: hidden">
+    <section style="height: 400px; overflow-y: auto; overflow-x: hidden">
       <div
         align="end"
         style="padding: 1%"

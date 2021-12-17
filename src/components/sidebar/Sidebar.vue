@@ -5,7 +5,7 @@
         <v-img src="../../assets/image/kiyoung2.png"></v-img>
       </v-list-item-avatar>
       <v-list-item-content>
-        <v-list-item-title style="font-size: 20px"
+        <v-list-item-title style="font-size: 25px"
           >Kiyoung2Bot</v-list-item-title
         >
       </v-list-item-content>
@@ -14,7 +14,7 @@
     <div class="text-xs-center">
       <v-tooltip right max-width="250">
         <template v-slot:activator="{ on, attrs }">
-          <span v-bind="attrs" v-on="on">Document</span>
+          <span v-bind="attrs" v-on="on" style="font: italic bold 1.2em/1em Georgia, serif">Documents</span>
         </template>
         <span
           >질문에 필요한 document를 선택하세요. 최대 5개까지 업로드
@@ -24,7 +24,7 @@
       <ContextSelector />
       <v-tooltip right max-width="250">
         <template v-slot:activator="{ on, attrs }">
-          <span v-bind="attrs" v-on="on">Image</span>
+          <span v-bind="attrs" v-on="on" style="font: italic bold 1.2em/1em Georgia, serif">Image</span>
         </template>
         <span
           >질문에 필요한 Image를 선택하세요. 최대 5개까지 업로드

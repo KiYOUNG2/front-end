@@ -9,7 +9,7 @@
       filled
       clearable
       deletable-chips
-      label="Select a image"
+      label="Select an image"
       @change="select_context()"
     ></v-autocomplete>
   </v-container>
@@ -25,7 +25,7 @@ export default {
     img_cache_names: [],
     value: null,
     highlight: {
-      backgroundColor: "#ffffff",
+    backgroundColor: "#ffffff",
     },
   }),
   created() {
