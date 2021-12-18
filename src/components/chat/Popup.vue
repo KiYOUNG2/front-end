@@ -9,7 +9,7 @@
     <template v-slot:default="dialog">
       <v-card>
         <v-toolbar color="black" dark flat>
-          <v-toolbar-title>Upload documents or images</v-toolbar-title>
+          <v-toolbar-title>Write a document or upload a file</v-toolbar-title>
           <template v-slot:extension>
             <v-tabs v-model="tabs" centered>
               <v-tabs-slider color="grey darken-2"></v-tabs-slider>
@@ -21,10 +21,6 @@
         <v-tabs-items v-model="tabs">
           <v-tab-item>
             <v-card flat>
-              <v-snackbar v-model="snackbar" absolute top right color="success">
-                <span>Upload successful!</span>
-                <v-icon dark> mdi-checkbox-marked-circle </v-icon>
-              </v-snackbar>
               <v-form ref="form" @submit.prevent="submit">
                 <v-container fluid>
                   <v-row>
@@ -49,7 +45,7 @@
                     text
                     color="black"
                     type="submit"
-                    @click="uploadText(document)"
+                    @click="uploadText(document, dialog)"
                   >
                     Upload
                   </v-btn>
@@ -59,10 +55,6 @@
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
-              <v-snackbar v-model="snackbar" absolute top right color="success">
-                <span>Upload successful!</span>
-                <v-icon dark> mdi-checkbox-marked-circle </v-icon>
-              </v-snackbar>
               <v-form ref="form" @submit.prevent="submit">
                 <v-container fluid>
                   <v-row>
@@ -87,7 +79,7 @@
                     text
                     color="black"
                     type="submit"
-                    @click="uploadFile(file)"
+                    @click="uploadFile(file, dialog)"
                   >
                     Upload
                   </v-btn>
@@ -120,7 +112,6 @@ export default {
     documents: [],
     file: null,
     files: [],
-    snackbar: false,
     rules: [
       (value) =>
         !value ||
@@ -129,15 +120,14 @@ export default {
     ],
   }),
   methods: {
-    resetForm() {
-      this.form = Object.assign({}, this.defaultForm);
-      this.$refs.form.reset();
+    resetKnowledge() {
+      this.document = "";
+      this.file = null;
     },
     submit() {
-      this.snackbar = true;
-      this.resetForm();
+      this.resetKnowledge();
     },
-    uploadFile(file) {
+    uploadFile(file, dialog) {
       if (file.type.startsWith("image/")) {
         this.files.push(file);
         eventBus.$emit("img_cache", this.files);
@@ -148,10 +138,12 @@ export default {
         };
         reader.readAsText(file);
       }
+      dialog.value = false;
     },
-    uploadText(document) {
+    uploadText(document, dialog) {
       this.documents.push(document);
       eventBus.$emit("doc_cache", this.documents);
+      dialog.value = false;
     },
   },
 };
