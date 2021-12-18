@@ -85,6 +85,9 @@ export default {
   },
   methods: {
     send: async function () {
+      if (this.msg === null) {
+        return;
+      }
       this.addMessage(this.user_name, this.msg);
       let formData = new FormData();
       formData.append("query", this.msg);
