@@ -12,6 +12,13 @@
       label="Select an image"
       @change="select_context()"
     ></v-autocomplete>
+    <v-img
+        style="max-width: 100%;"
+        :src="img_src"
+        v-bind="attrs"
+        v-on="on"
+      >
+  </v-img>
   </v-container>
 </template>
 
@@ -26,6 +33,7 @@ export default {
     value: null,
     highlight: {
     backgroundColor: "#ffffff",
+    img_src : null,
     },
   }),
   created() {
@@ -57,6 +65,7 @@ export default {
       } else {
         this.img_cache.forEach((element) => {
           if (element.name == this.value) {
+            this.img_src = window.URL.createObjectURL(element)
             eventBus.$emit("context", "image", element);
           }
         });
