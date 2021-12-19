@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container style="width: 80%;">
     <v-row>
       <v-col>
         <v-sheet min-height="20vh" rounded="lg">
@@ -99,8 +99,6 @@ export default {
         "Content-Type": "multipart/form-data",
       };
       this.msg = null;
-      this.image = null;
-      this.document = null;
       await axios.post(url, formData, { headers: headers }).then((response) => {
         this.answer = response.data;
         this.answer.forEach(function (element, index) {

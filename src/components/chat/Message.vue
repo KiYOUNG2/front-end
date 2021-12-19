@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <section
-      style="height: 600px; overflow-y: auto; overflow-x: hidden"
+      style="height: 550px; overflow-y: auto; overflow-x: hidden"
       ref="messagesContainer"
     >
       <div
