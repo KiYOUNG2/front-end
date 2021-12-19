@@ -41,7 +41,7 @@ export default {
       if (type == "document") {
         this.highlight.backgroundColor = "#ffffff";
       } else {
-        this.highlight.backgroundColor = "#f0f4c3";
+        this.highlight.backgroundColor = "#ffe57f";
       }
     });
     eventBus.$on("img_cache", (files) => {
@@ -57,7 +57,7 @@ export default {
   methods: {
     select_context() {
       this.send_context();
-      this.highlight.backgroundColor = "#f0f4c3";
+      this.highlight.backgroundColor = "#ffe57f";
     },
     send_context() {
       if (this.value == null) {
