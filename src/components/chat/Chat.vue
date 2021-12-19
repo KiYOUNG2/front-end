@@ -59,9 +59,9 @@ export default {
   }),
   mounted: function () {
     this.addImage(this.bot_name, require("../../assets/image/kiyoung2.png"));
-    this.addMessage(this.bot_name, "안녕! 반가워😍 나는 기영이라고 해~");
-    this.addMessage(this.bot_name, "모르는게 있으면 물어봐!");
-    this.addMessage(this.bot_name, "나 꽤나 똑똑하다고~");
+    setTimeout(this.addMessage, 1000, this.bot_name, "안녕! 반가워😍 나는 기영이라고 해~");
+    setTimeout(this.addMessage, 2000, this.bot_name, "모르는게 있으면 물어봐!");
+    setTimeout(this.addMessage, 3000, this.bot_name, "나 꽤나 똑똑하다고~");
   },
   created() {
     eventBus.$on("context", (type, context) => {
@@ -102,10 +102,13 @@ export default {
       this.image = null;
       this.document = null;
       await axios.post(url, formData, { headers: headers }).then((response) => {
-        console.log(response.data);
         this.answer = response.data;
-        this.answer.forEach(function (element) {
-          this.addMessage(this.bot_name, element);
+        this.answer.forEach(function (element, index) {
+          if (index == 0) {
+            this.addMessage(this.bot_name, element);
+          } else {
+            setTimeout(this.addMessage, 1000, this.bot_name, element);
+          }
         }, this);
       });
     },
