@@ -13,7 +13,9 @@
       label="Select the documents"
       @change="select_context()"
     ></v-autocomplete>
-    <span v-html="show"> </span>
+    <v-container style="height: 15vh; overflow-y: auto; overflow-x: hidden">
+      <span v-html="show"> </span>
+    </v-container>
   </v-container>
 </template>
 
@@ -58,7 +60,7 @@ export default {
       eventBus.$emit("context", "document", this.value);
       this.show_context = "";
       this.value.forEach((element) => {
-        this.show_context += element + "\n";
+        this.show_context += element + "\n\n";
       });
     },
   },
