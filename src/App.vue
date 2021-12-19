@@ -10,7 +10,9 @@
         <v-icon>mdi-chevron-right</v-icon>
       </v-btn>
       <v-container class="py-0 fill-height">
-        <v-avatar class="mr-10" color="black" size="32"></v-avatar>
+        <v-avatar v-for="n in 8" :key="n" size="32">
+          <v-img :src="getNthImage(n)"></v-img>
+        </v-avatar>
         <v-btn text>
           <router-link to="/" style="text-decoration: none; color: black"
             >Kiyoung2BOT</router-link
@@ -52,6 +54,11 @@ export default {
     return {
       drawer: null,
     };
+  },
+  methods: {
+    getNthImage(n) {
+      return require("@/assets/image/" + n + ".png");
+    },
   },
 };
 </script>
