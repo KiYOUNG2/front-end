@@ -13,6 +13,7 @@
       label="Select the documents"
       @change="select_context()"
     ></v-autocomplete>
+    <span v-html="show"> </span>
   </v-container>
 </template>
 
@@ -27,6 +28,7 @@ export default {
     highlight: {
       backgroundColor: "#ffffff",
     },
+    show_context: "",
   }),
   created() {
     eventBus.$on("context", (type) => {
@@ -42,6 +44,11 @@ export default {
       this.send_context();
     });
   },
+  computed: {
+    show() {
+      return this.show_context.replace("\n", "<br />");
+    },
+  },
   methods: {
     select_context() {
       this.send_context();
@@ -49,6 +56,10 @@ export default {
     },
     send_context() {
       eventBus.$emit("context", "document", this.value);
+      this.show_context = "";
+      this.value.forEach((element) => {
+        this.show_context += element + "\n";
+      });
     },
   },
 };
