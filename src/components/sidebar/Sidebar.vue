@@ -1,9 +1,5 @@
 <template>
   <v-container>
-    <v-avatar v-for="n in 8" :key="n" size="32">
-      <v-img :src="getNthImage(n)"></v-img>
-    </v-avatar>
-    <v-divider></v-divider>
     <div class="text-xs-center">
       <v-col class="ml-auto">
         <v-tooltip right max-width="250">
@@ -52,12 +48,6 @@ export default {
   components: {
     ImageSelector,
     ContextSelector,
-  },
-  data: () => ({}),
-  methods: {
-    getNthImage(n) {
-      return require("@/assets/image/" + n + ".png");
-    },
   },
 };
 </script>

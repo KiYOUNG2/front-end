@@ -102,10 +102,12 @@ export default {
       await axios.post(url, formData, { headers: headers }).then((response) => {
         this.answer = response.data;
         this.answer.forEach(function (element, index) {
-          if (index == 0) {
-            this.addMessage(this.bot_name, element);
-          } else {
-            setTimeout(this.addMessage, 1000, this.bot_name, element);
+          if (element != "") {
+            if (index == 0) {
+              this.addMessage(this.bot_name, element);
+            } else {
+              setTimeout(this.addMessage, 1000, this.bot_name, element);
+            }
           }
         }, this);
       });

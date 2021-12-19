@@ -1,6 +1,11 @@
 <template>
   <v-container fluid>
-    <h1>팀 기영이를 소개합니다!</h1>
+    <h1>
+      팀
+      <v-avatar v-for="n in 7" :key="n" size="50">
+        <v-img :src="getNthImage(n)"></v-img> </v-avatar
+      >을 소개합니다!
+    </h1>
     <v-row>
       <v-col
         v-for="(person, i) in people"
@@ -154,5 +159,10 @@ export default {
       },
     ],
   }),
+  methods: {
+    getNthImage(n) {
+      return require("@/assets/image/" + n + ".png");
+    },
+  },
 };
 </script>
