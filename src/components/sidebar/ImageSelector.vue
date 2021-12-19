@@ -12,13 +12,7 @@
       label="Select an image"
       @change="select_context()"
     ></v-autocomplete>
-    <v-img
-        style="max-width: 100%;"
-        :src="img_src"
-        v-bind="attrs"
-        v-on="on"
-      >
-  </v-img>
+    <v-img style="max-width: 100%" :src="img_src"> </v-img>
   </v-container>
 </template>
 
@@ -31,9 +25,9 @@ export default {
     img_cache: [],
     img_cache_names: [],
     value: null,
+    img_src: null,
     highlight: {
-    backgroundColor: "#ffffff",
-    img_src : null,
+      backgroundColor: "#ffffff",
     },
   }),
   created() {
@@ -65,7 +59,7 @@ export default {
       } else {
         this.img_cache.forEach((element) => {
           if (element.name == this.value) {
-            this.img_src = window.URL.createObjectURL(element)
+            this.img_src = window.URL.createObjectURL(element);
             eventBus.$emit("context", "image", element);
           }
         });
