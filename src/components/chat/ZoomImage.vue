@@ -2,7 +2,7 @@
   <v-dialog v-model="dialog" max-width="50%">
     <template v-slot:activator="{ on, attrs }">
       <v-img
-        style="max-width: 25%; margin-left: 1%; margin-right: 1%"
+        style="max-width: 300px; margin-left: 1%; margin-right: 1%"
         :src="item.img"
         v-bind="attrs"
         v-on="on"
