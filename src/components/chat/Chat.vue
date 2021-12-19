@@ -1,5 +1,5 @@
 <template>
-  <v-container style="width: 60%">
+  <v-container>
     <v-row>
       <v-col>
         <v-sheet min-height="20vh" rounded="lg">

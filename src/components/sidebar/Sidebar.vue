@@ -1,20 +1,8 @@
 <template>
   <v-container>
-    <v-list-item>
-      <v-list-item-avatar>
-        <v-img src="../../assets/image/kiyoung2.png"></v-img>
-      </v-list-item-avatar>
-      <v-list-item-content>
-        <v-list-item-title
-          style="
-            font-family: 'Sunflower', sans-serif;
-            font-size: x-large;
-            font-weight: bold;
-          "
-          >기영이봇</v-list-item-title
-        >
-      </v-list-item-content>
-    </v-list-item>
+    <v-avatar v-for="n in 8" :key="n" size="32">
+      <v-img :src="getNthImage(n)"></v-img>
+    </v-avatar>
     <v-divider></v-divider>
     <div class="text-xs-center">
       <v-col class="ml-auto">
@@ -23,11 +11,7 @@
             <span
               v-bind="attrs"
               v-on="on"
-              style="
-                font-family: 'Sunflower', sans-serif;
-                font-size: large;
-                font-weight: bold;
-              "
+              style="font-size: large; font-weight: bold"
               >문서 선택하기</span
             >
           </template>
@@ -44,11 +28,7 @@
             <span
               v-bind="attrs"
               v-on="on"
-              style="
-                font-family: 'Sunflower', sans-serif;
-                font-size: large;
-                font-weight: bold;
-              "
+              style="font-size: large; font-weight: bold"
               >이미지 선택하기</span
             >
           </template>
@@ -74,6 +54,11 @@ export default {
     ContextSelector,
   },
   data: () => ({}),
+  methods: {
+    getNthImage(n) {
+      return require("@/assets/image/" + n + ".png");
+    },
+  },
 };
 </script>
 

@@ -1,7 +1,7 @@
 <template>
   <v-app app>
     <!-- 사이드 바 -->
-    <v-navigation-drawer v-model="drawer" absolute temporary>
+    <v-navigation-drawer v-model="drawer" absolute temporary width="20%">
       <Sidebar />
     </v-navigation-drawer>
     <!-- 앱 상단 바 -->
@@ -10,15 +10,12 @@
         <v-icon>mdi-chevron-right</v-icon>
       </v-btn>
       <v-container class="py-0 fill-height">
-        <v-avatar v-for="n in 8" :key="n" size="32">
-          <v-img :src="getNthImage(n)"></v-img>
-        </v-avatar>
-        <v-btn text>
+        <v-btn text class="font-weight-bold">
           <router-link to="/" style="text-decoration: none; color: black"
             >Kiyoung2BOT</router-link
           >
         </v-btn>
-        <v-btn text>
+        <v-btn text class="font-weight-bold">
           <router-link to="/about" style="text-decoration: none; color: black"
             >About us</router-link
           >
@@ -55,15 +52,18 @@ export default {
       drawer: null,
     };
   },
-  methods: {
-    getNthImage(n) {
-      return require("@/assets/image/" + n + ".png");
-    },
-  },
 };
 </script>
 
 <style>
 @import "//unpkg.com/bootstrap/dist/css/bootstrap.min.css";
 @import "//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css";
+@import url("https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap");
+
+h1,
+div,
+span {
+  font-family: "Gowun Dodum", sans-serif;
+  text-align: center;
+}
 </style>

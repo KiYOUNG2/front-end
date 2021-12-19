@@ -16,7 +16,7 @@
       >
         <v-row class="flex-column" v-if="item.from == '바트'">
           <v-col :class="['d-flex child-flex', 'justify-end']">
-            <span style="font-family: 'Sunflower', sans-serif">{{
+            <span style="text-align: end;">{{
               item.from
             }}</span>
           </v-col>
@@ -24,7 +24,6 @@
             <span
               v-if="item.msg != null"
               style="
-                font-family: 'Sunflower', sans-serif;
                 font-size: large;
                 max-width: 60%;
                 text-align: right;
@@ -49,7 +48,7 @@
         <v-row class="flex-column" v-if="item.from != '바트'">
           <v-col class="d-flex child-flex">
             <span
-              style="font-family: 'Sunflower', sans-serif; text-align: left"
+              style="text-align: left"
               >{{ item.from }}</span
             >
           </v-col>
@@ -57,7 +56,6 @@
             <span
               v-if="item.msg != null"
               style="
-                font-family: 'Sunflower', sans-serif;
                 font-size: large;
                 max-width: 60%;
                 text-align: left;
@@ -103,7 +101,3 @@ export default {
   },
 };
 </script>
-
-<style>
-@import url("https://fonts.googleapis.com/css2?family=Sunflower:wght@300&display=swap");
-</style>
