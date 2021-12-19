@@ -11,8 +11,15 @@
       </v-btn>
       <v-container class="py-0 fill-height">
         <v-avatar class="mr-10" color="black" size="32"></v-avatar>
-        <v-btn v-for="link in links" :key="link" text>
-          {{ link }}
+        <v-btn text>
+          <router-link to="/" style="text-decoration: none; color: black"
+            >Kiyoung2BOT</router-link
+          >
+        </v-btn>
+        <v-btn text>
+          <router-link to="/about" style="text-decoration: none; color: black"
+            >About us</router-link
+          >
         </v-btn>
         <v-spacer></v-spacer>
         <v-responsive max-width="260">
@@ -28,25 +35,22 @@
     </v-app-bar>
     <!-- 메인 컨텐츠 (봇) -->
     <v-main class="grey lighten-3">
-      <Chat />
+      <router-view></router-view>
     </v-main>
   </v-app>
 </template>
 
 <script>
 import Sidebar from "./components/sidebar/Sidebar.vue";
-import Chat from "./components/chat/Chat.vue";
 
 export default {
   name: "App",
   components: {
-    Chat,
     Sidebar,
   },
   data() {
     return {
       drawer: null,
-      links: ["Home", "Kiyoung2BOT", "About us"],
     };
   },
 };
