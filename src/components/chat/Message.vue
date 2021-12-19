@@ -24,6 +24,7 @@
             <span
               v-if="item.msg != null"
               style="
+                display: inline-flex;
                 font-size: large;
                 max-width: 60%;
                 text-align: right;
@@ -56,6 +57,7 @@
             <span
               v-if="item.msg != null"
               style="
+                display: inline-flex;
                 font-size: large;
                 max-width: 60%;
                 text-align: left;
