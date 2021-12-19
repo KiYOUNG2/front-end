@@ -18,7 +18,7 @@
                   >
                   </v-text-field>
                   <!-- 팝업창 -->
-                  <Popup v-on:uploadImage="addImage('user', $event)" />
+                  <Popup />
                   <!-- 메세지 보내기 버튼 -->
                   <v-btn icon class="ml-4" @click="send">
                     <v-icon>mdi-send</v-icon>
@@ -36,11 +36,11 @@
 <script>
 import Message from "./Message.vue";
 import Popup from "./Popup.vue";
+import eventBus from "../../main.js";
 
 import axios from "axios";
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
-//const base_url = window.location.href;
 
 export default {
   name: "Chat",
@@ -50,43 +50,71 @@ export default {
   },
   data: () => ({
     chat: [],
+    user_name: "user",
+    bot_name: "kiyoung2",
     msg: null,
-    items: ["context", "image", "audio"],
+    context_type: null,
+    image: null,
+    document: null,
   }),
   mounted: function () {
-    this.addImage("kiyoung2", require("../../assets/image/kiyoung2.png"));
-    setTimeout(this.addReply, 1000, "안녕! 반가워😍 나는 기영이라고 해~");
-    setTimeout(this.addReply, 2000, "모르는게 있으면 물어봐!");
-    setTimeout(this.addReply, 3000, "나 꽤나 똑똑하다고~");
+    this.addImage(this.bot_name, require("../../assets/image/kiyoung2.png"));
+    setTimeout(this.addMessage, 1000, this.bot_name, "안녕! 반가워😍 나는 기영이라고 해~");
+    setTimeout(this.addMessage, 2000, this.bot_name, "모르는게 있으면 물어봐!");
+    setTimeout(this.addMessage, 3000, this.bot_name, "나 꽤나 똑똑하다고~");
+  },
+  created() {
+    eventBus.$on("context", (type, context) => {
+      this.context_type = type;
+      if (this.context_type == "image") {
+        this.image = context;
+        this.document = null;
+        if (this.image != null) {
+          const img_src = window.URL.createObjectURL(this.image);
+          this.addImage(this.user_name, img_src);
+        }
+      } else {
+        this.image = null;
+        this.document = "";
+        context.forEach((element) => {
+          this.addMessage(this.user_name, element);
+          this.document += element + " ";
+        });
+      }
+    });
   },
   methods: {
     send: async function () {
-      this.chat.push({
-        from: "user",
-        msg: this.msg,
-        img: null,
-      });
-      const payload = { question: this.msg };
-      const url = "http://127.0.0.1:5000/answer-question";
-      const headers = {
-        "Content-Type": "application/json",
-      };
+      if (this.msg === null) {
+        return;
+      }
+      this.addMessage(this.user_name, this.msg);
+      let formData = new FormData();
+      formData.append("query", this.msg);
+      formData.append("document", this.document === null ? "" : this.document);
+      formData.append("image", this.image === null ? "" : this.image);
 
+      const url = "http://localhost:8000/chat";
+      const headers = {
+        "Content-Type": "multipart/form-data",
+      };
       this.msg = null;
-      await axios.post(url, payload, { headers: headers }).then((response) => {
+      this.image = null;
+      this.document = null;
+      await axios.post(url, formData, { headers: headers }).then((response) => {
         this.answer = response.data;
         this.answer.forEach(function (element, index) {
           if (index == 0) {
-            this.addReply(element);
+            this.addMessage(this.bot_name, element);
           } else {
-            setTimeout(this.addReply, 1000, element);
+            setTimeout(this.addMessage, 1000, this.bot_name, element);
           }
         }, this);
       });
     },
-    addReply(msg) {
+    addMessage(from, msg) {
       this.chat.push({
-        from: "kiyoung2",
+        from: from,
         msg: msg,
         img: null,
       });

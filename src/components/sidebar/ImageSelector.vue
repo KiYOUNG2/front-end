@@ -1,32 +1,76 @@
 <template>
-  <v-container dense>
-    <v-radio-group v-model="radioGroup">
-      <v-radio
-        :disabled="get_context != null"
-        v-for="n in 3"
-        :key="n"
-        :label="`Image ${n}`"
-        :value="n"
-        color="amber accent-2"
-      ></v-radio>
-    </v-radio-group>
+  <v-container dense :style="highlight">
+    <v-autocomplete
+      v-model="value"
+      :data="value"
+      :items="img_cache_names"
+      dense
+      solo
+      filled
+      clearable
+      deletable-chips
+      label="Select an image"
+      @change="select_context()"
+    ></v-autocomplete>
+    <v-img
+        style="max-width: 100%;"
+        :src="img_src"
+        v-bind="attrs"
+        v-on="on"
+      >
+  </v-img>
   </v-container>
 </template>
 
 <script>
-import Vue from "vue";
-var eventBus = new Vue();
+import eventBus from "../../main.js";
 
 export default {
   name: "ImageSelector",
   data: () => ({
-    radioGroup: 1,
-    get_context: null,
+    img_cache: [],
+    img_cache_names: [],
+    value: null,
+    highlight: {
+    backgroundColor: "#ffffff",
+    img_src : null,
+    },
   }),
   created() {
-    eventBus.$on("context", (context) => {
-      this.get_context = context;
+    eventBus.$on("context", (type) => {
+      if (type == "document") {
+        this.highlight.backgroundColor = "#ffffff";
+      } else {
+        this.highlight.backgroundColor = "#f0f4c3";
+      }
     });
+    eventBus.$on("img_cache", (files) => {
+      this.img_cache = files;
+      this.img_cache_names = [];
+      this.img_cache.forEach((element) => {
+        this.img_cache_names.push(element.name);
+      });
+      this.value = this.img_cache_names[this.img_cache_names.length - 1];
+      this.send_context();
+    });
+  },
+  methods: {
+    select_context() {
+      this.send_context();
+      this.highlight.backgroundColor = "#f0f4c3";
+    },
+    send_context() {
+      if (this.value == null) {
+        eventBus.$emit("context", "image", null);
+      } else {
+        this.img_cache.forEach((element) => {
+          if (element.name == this.value) {
+            this.img_src = window.URL.createObjectURL(element)
+            eventBus.$emit("context", "image", element);
+          }
+        });
+      }
+    },
   },
 };
 </script>

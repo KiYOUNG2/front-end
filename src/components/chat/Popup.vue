@@ -9,7 +9,7 @@
     <template v-slot:default="dialog">
       <v-card>
         <v-toolbar color="black" dark flat>
-          <v-toolbar-title>Upload documents or images</v-toolbar-title>
+          <v-toolbar-title>Write a document or upload a file</v-toolbar-title>
           <template v-slot:extension>
             <v-tabs v-model="tabs" centered>
               <v-tabs-slider color="grey darken-2"></v-tabs-slider>
@@ -21,16 +21,12 @@
         <v-tabs-items v-model="tabs">
           <v-tab-item>
             <v-card flat>
-              <v-snackbar v-model="snackbar" absolute top right color="success">
-                <span>Upload successful!</span>
-                <v-icon dark> mdi-checkbox-marked-circle </v-icon>
-              </v-snackbar>
               <v-form ref="form" @submit.prevent="submit">
                 <v-container fluid>
                   <v-row>
                     <v-col cols="12">
                       <v-textarea
-                        v-model="context"
+                        v-model="document"
                         color="black"
                         maxlength="1000"
                       >
@@ -45,11 +41,11 @@
                   <v-btn text @click="dialog.value = false">Close</v-btn>
                   <v-spacer></v-spacer>
                   <v-btn
-                    :disabled="!ContextIsValid"
+                    :disabled="!DocumentIsValid"
                     text
                     color="black"
                     type="submit"
-                    @click="uploadText(context)"
+                    @click="uploadText(document, dialog)"
                   >
                     Upload
                   </v-btn>
@@ -59,10 +55,6 @@
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
-              <v-snackbar v-model="snackbar" absolute top right color="success">
-                <span>Upload successful!</span>
-                <v-icon dark> mdi-checkbox-marked-circle </v-icon>
-              </v-snackbar>
               <v-form ref="form" @submit.prevent="submit">
                 <v-container fluid>
                   <v-row>
@@ -70,7 +62,7 @@
                       <v-file-input
                         v-model="file"
                         :rules="rules"
-                        accept="image/png, image/jpeg, image/bmp, audio/wav, video/mp4"
+                        accept="image/png, image/jpeg, image/jpg, .doc, .txt"
                         placeholder="Pick an file"
                         prepend-icon="mdi-paperclip"
                         label="File"
@@ -83,11 +75,11 @@
                   <v-btn text @click="dialog.value = false">Close </v-btn>
                   <v-spacer></v-spacer>
                   <v-btn
-                    :disabled="FileIsValid==null"
+                    :disabled="FileIsValid == null"
                     text
                     color="black"
                     type="submit"
-                    @click="uploadFile(file)"
+                    @click="uploadFile(file, dialog)"
                   >
                     Upload
                   </v-btn>
@@ -102,14 +94,13 @@
 </template>
 
 <script>
-import Vue from "vue";
-var eventBus = new Vue();
+import eventBus from "../../main.js";
 
 export default {
   name: "Popup",
   computed: {
-    ContextIsValid() {
-      return this.context;
+    DocumentIsValid() {
+      return this.document;
     },
     FileIsValid() {
       return this.file;
@@ -117,12 +108,10 @@ export default {
   },
   data: () => ({
     tabs: null,
-    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    context: "",
-    contexts: [],
+    document: "",
+    documents: [],
     file: null,
     files: [],
-    snackbar: false,
     rules: [
       (value) =>
         !value ||
@@ -131,27 +120,30 @@ export default {
     ],
   }),
   methods: {
-    resetForm() {
-      this.form = Object.assign({}, this.defaultForm);
-      this.$refs.form.reset();
+    resetKnowledge() {
+      this.document = "";
+      this.file = null;
     },
     submit() {
-      this.snackbar = true;
-      this.resetForm();
+      this.resetKnowledge();
     },
-    uploadFile(file) {
-      this.files.push(file);
-
+    uploadFile(file, dialog) {
       if (file.type.startsWith("image/")) {
-        const img_src = window.URL.createObjectURL(file);
-        this.$emit("uploadImage", img_src);
+        this.files.push(file);
+        eventBus.$emit("img_cache", this.files);
+      } else {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.uploadText(e.target.result);
+        };
+        reader.readAsText(file);
       }
-
-      eventBus.$emit("file", file);
+      dialog.value = false;
     },
-    uploadText(context) {
-      this.contexts.push(context);
-      eventBus.$emit("context", context);
+    uploadText(document, dialog) {
+      this.documents.push(document);
+      eventBus.$emit("doc_cache", this.documents);
+      dialog.value = false;
     },
   },
 };
