@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container style="width: 60%">
     <v-row>
       <v-col>
         <v-sheet min-height="20vh" rounded="lg">
@@ -50,8 +50,8 @@ export default {
   },
   data: () => ({
     chat: [],
-    user_name: "user",
-    bot_name: "kiyoung2",
+    user_name: "바트",
+    bot_name: "기영이",
     msg: null,
     context_type: null,
     image: null,
