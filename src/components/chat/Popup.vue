@@ -45,7 +45,10 @@
                     text
                     color="black"
                     type="submit"
-                    @click="uploadText(document, dialog)"
+                    @click="
+                      uploadText(document);
+                      dialog.value = false;
+                    "
                   >
                     Upload
                   </v-btn>
@@ -79,7 +82,10 @@
                     text
                     color="black"
                     type="submit"
-                    @click="uploadFile(file, dialog)"
+                    @click="
+                      uploadFile(file);
+                      dialog.value = false;
+                    "
                   >
                     Upload
                   </v-btn>
@@ -127,7 +133,7 @@ export default {
     submit() {
       this.resetKnowledge();
     },
-    uploadFile(file, dialog) {
+    uploadFile(file) {
       if (file.type.startsWith("image/")) {
         this.files.push(file);
         eventBus.$emit("img_cache", this.files);
@@ -138,12 +144,10 @@ export default {
         };
         reader.readAsText(file);
       }
-      dialog.value = false;
     },
-    uploadText(document, dialog) {
+    uploadText(document) {
       this.documents.push(document);
       eventBus.$emit("doc_cache", this.documents);
-      dialog.value = false;
     },
   },
 };
