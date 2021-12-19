@@ -10,7 +10,7 @@
       >
         <v-row class="flex-column">
           <v-col>
-            <span style="font-size: large;">{{ person.name }}</span>
+            <span style="font-size: large">{{ person.name }}</span>
           </v-col>
           <v-col>
             <v-img
@@ -42,21 +42,28 @@
           ></span>
         </template>
         <div class="py-4">
-          <v-expansion-panels popout>
-            <v-expansion-panel>
-              <v-expansion-panel-header>
-                <span style="font-size: x-large; color: grey">
-                  {{ item.title }}
-                </span>
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <a :href="item.link" target="_blank">
-                  <v-img :src="item.img_src"> </v-img>
-                </a>
-                <span>{{ item.description }}</span>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </v-expansion-panels>
+          <v-card :color="item.color">
+            <v-expansion-panels>
+              <v-expansion-panel
+                @click="item.color = item.color == 'grey' ? 'black' : 'grey'"
+              >
+                <v-expansion-panel-header>
+                  <span
+                    style="font-size: x-large"
+                    :style="`color: ${item.color}`"
+                  >
+                    {{ item.title }}
+                  </span>
+                </v-expansion-panel-header>
+                <v-expansion-panel-content>
+                  <a :href="item.link" target="_blank">
+                    <v-img :src="item.img_src"> </v-img>
+                  </a>
+                  <span>{{ item.description }}</span>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels>
+          </v-card>
         </div>
       </v-timeline-item>
     </v-timeline>
@@ -98,13 +105,13 @@ export default {
         period: "2021.11.22 ~ 2021.12.02 (2주)",
         img_src: require("@/assets/image/optimization.png"),
         link: "https://github.com/boostcampaitech2/model-optimization-level3-nlp-14",
-        description: "👆 기영이가 어떻게 1위 했는지 궁금하다면 클릭! 👆",
+        description: "👆 기영이가 어떻게 진행했는지 궁금하다면 클릭! 👆",
       },
       {
         title: "최종 프로젝트 기영이봇",
         color: "grey",
         period: "2021.11.08 ~ 2021.12.22 (6~7주)",
-        img_src: require("@/assets/image/kiyoung2.png"),
+        img_src: require("@/assets/image/profile_kiyoung.png"),
         link: "https://github.com/KiYOUNG2",
         description: "👆 기영이봇이 어떻게 만들어졌는지 궁금하다면 클릭! 👆",
       },
