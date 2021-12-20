@@ -1,11 +1,6 @@
 <template>
   <v-container fluid>
-    <h1>
-      팀
-      <v-avatar v-for="n in 7" :key="n" size="50">
-        <v-img :src="getNthImage(n)"></v-img> </v-avatar
-      >을 소개합니다!
-    </h1>
+    <h1>팀 기영이를 소개합니다!</h1>
     <v-row>
       <v-col
         v-for="(person, i) in people"
@@ -15,24 +10,29 @@
       >
         <v-row class="flex-column">
           <v-col>
+            <v-avatar size="30">
+              <v-img :src="getNthImage(i + 1)"></v-img>
+            </v-avatar>
+            <v-spacer></v-spacer>
             <span style="font-size: large">{{ person.name }}</span>
           </v-col>
           <v-col>
-            <v-img
-              :src="person.img_src"
-              aspect-ratio="1"
-              class="grey lighten-2"
-            >
-            </v-img>
+            <a :href="person.github" target="_blank">
+              <v-img
+                :src="person.img_src"
+                aspect-ratio="1"
+                class="grey lighten-2"
+              >
+              </v-img>
+            </a>
           </v-col>
           <v-col>
-            <a :href="person.github" target="_blank">
-              <span>GitHub</span>
-            </a>
+            <span> {{ person.role }}</span>
           </v-col>
         </v-row>
       </v-col>
     </v-row>
+    <v-spacer></v-spacer>
     <v-timeline>
       <v-timeline-item
         v-for="(item, i) in items"
@@ -47,28 +47,26 @@
           ></span>
         </template>
         <div class="py-4">
-          <v-card :color="item.color">
-            <v-expansion-panels>
-              <v-expansion-panel
-                @click="item.color = item.color == 'grey' ? 'black' : 'grey'"
-              >
-                <v-expansion-panel-header>
-                  <span
-                    style="font-size: x-large"
-                    :style="`color: ${item.color}`"
-                  >
-                    {{ item.title }}
-                  </span>
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <a :href="item.link" target="_blank">
-                    <v-img :src="item.img_src"> </v-img>
-                  </a>
-                  <span>{{ item.description }}</span>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-            </v-expansion-panels>
-          </v-card>
+          <v-expansion-panels>
+            <v-expansion-panel
+              @click="item.color = item.color == 'grey' ? 'black' : 'grey'"
+            >
+              <v-expansion-panel-header>
+                <span
+                  style="font-size: x-large"
+                  :style="`color: ${item.color}`"
+                >
+                  {{ item.title }}
+                </span>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <a :href="item.link" target="_blank">
+                  <v-img :src="item.img_src"> </v-img>
+                </a>
+                <span>{{ item.description }}</span>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
         </div>
       </v-timeline-item>
     </v-timeline>
@@ -126,36 +124,43 @@ export default {
         name: "김대웅",
         img_src: "https://avatars.githubusercontent.com/u/41335296?v=4",
         github: "https://github.com/KimDaeUng",
+        role: "기영이의 정리왕👨‍🏫",
       },
       {
         name: "김채은",
         img_src: "https://avatars.githubusercontent.com/u/60843683?v=4",
         github: "https://github.com/Amber-Chaeeunk",
+        role: "기영이의 토론왕🏆",
       },
       {
         name: "김태욱",
         img_src: "https://avatars.githubusercontent.com/u/47404628?v=4",
         github: "https://github.com/taeukkkim",
+        role: "기영이의 분석왕👨‍💻",
       },
       {
         name: "유영재",
         img_src: "https://avatars.githubusercontent.com/u/53523319?v=4",
         github: "https://github.com/uyeongjae",
+        role: "기영이의 공장장🏭",
       },
       {
         name: "이하람",
         img_src: "https://avatars.githubusercontent.com/u/35680202?v=4",
         github: "https://github.com/hrxorxm",
+        role: "기영이의 배고픔🍕",
       },
       {
         name: "진명훈",
         img_src: "https://avatars.githubusercontent.com/u/37775784?v=4",
         github: "https://github.com/jinmang2",
+        role: "기영이의 대장님🤗",
       },
       {
         name: "허진규",
         img_src: "https://avatars.githubusercontent.com/u/88299729?v=4",
         github: "https://github.com/JeangyuHeo",
+        role: "기영이의 박카스💪",
       },
     ],
   }),
