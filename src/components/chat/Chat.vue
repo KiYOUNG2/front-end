@@ -94,7 +94,7 @@ export default {
       formData.append("document", this.document === null ? "" : this.document);
       formData.append("image", this.image === null ? "" : this.image);
 
-      const url = "http://localhost:8000/chat";
+      const url = "http://localhost:8000/api/chat";
       const headers = {
         "Content-Type": "multipart/form-data",
       };
