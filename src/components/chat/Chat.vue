@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container style="width: 80%;">
     <v-row>
       <v-col>
         <v-sheet min-height="20vh" rounded="lg">
@@ -34,54 +34,96 @@
 </template>
 
 <script>
-import Message from './Message.vue';
-import Popup from './Popup.vue';
+import Message from "./Message.vue";
+import Popup from "./Popup.vue";
+import eventBus from "../../main.js";
 
 import axios from "axios";
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
-//const base_url = window.location.href;
 
 export default {
   name: "Chat",
   components: {
-      Message,
-      Popup,
+    Message,
+    Popup,
   },
   data: () => ({
     chat: [],
+    user_name: "바트",
+    bot_name: "기영이",
     msg: null,
-    items: ["context", "image", "audio"],
+    context_type: null,
+    image: null,
+    document: null,
   }),
   mounted: function () {
-    this.addReply("안녕하세요! 기영이 봇 입니다~");
-    this.addReply("무엇이 궁금하신가요?");
+    this.addImage(this.bot_name, require("../../assets/image/kiyoung2.png"));
+    setTimeout(this.addMessage, 1000, this.bot_name, "안녕! 반가워😍 나는 기영이라고 해~");
+    setTimeout(this.addMessage, 2000, this.bot_name, "모르는게 있으면 물어봐!");
+    setTimeout(this.addMessage, 3000, this.bot_name, "나 꽤나 똑똑하다고~");
+  },
+  created() {
+    eventBus.$on("context", (type, context) => {
+      this.context_type = type;
+      if (this.context_type == "image") {
+        this.image = context;
+        this.document = null;
+        if (this.image != null) {
+          const img_src = window.URL.createObjectURL(this.image);
+          this.addImage(this.user_name, img_src);
+        }
+      } else {
+        this.image = null;
+        this.document = "";
+        context.forEach((element) => {
+          this.addMessage(this.user_name, element);
+          this.document += element + " ";
+        });
+      }
+    });
   },
   methods: {
     send: async function () {
-      this.chat.push({
-        from: "user",
-        msg: this.msg,
-      });
-      const payload = { question: this.msg };
-      const url = "http://127.0.0.1:5000/answer-question";
-      const headers = {
-        "Content-Type": "application/json",
-      };
+      if (this.msg === null) {
+        return;
+      }
+      this.addMessage(this.user_name, this.msg);
+      let formData = new FormData();
+      formData.append("query", this.msg);
+      formData.append("document", this.document === null ? "" : this.document);
+      formData.append("image", this.image === null ? "" : this.image);
 
+      const url = "http://localhost:8000/chat";
+      const headers = {
+        "Content-Type": "multipart/form-data",
+      };
       this.msg = null;
-      await axios.post(url, payload, { headers: headers }).then((response) => {
-        console.log(response.data);
+      await axios.post(url, formData, { headers: headers }).then((response) => {
         this.answer = response.data;
-        this.answer.forEach(function (element) {
-          this.addReply(element);
+        this.answer.forEach(function (element, index) {
+          if (element != "") {
+            if (index == 0) {
+              this.addMessage(this.bot_name, element);
+            } else {
+              setTimeout(this.addMessage, 1000, this.bot_name, element);
+            }
+          }
         }, this);
       });
     },
-    addReply(msg) {
+    addMessage(from, msg) {
       this.chat.push({
-        from: "kiyoung2",
+        from: from,
         msg: msg,
+        img: null,
+      });
+    },
+    addImage(from, img_src) {
+      this.chat.push({
+        from: from,
+        msg: null,
+        img: img_src,
       });
     },
   },

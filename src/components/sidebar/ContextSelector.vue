@@ -1,47 +1,68 @@
 <template>
-  <v-container dense>
-    <v-row class="mt-12">
-      <v-checkbox
-        v-model="ex4"
-        label="Context 1"
-        color="primary"
-        value="primary"
-        hide-details
-      >
-      </v-checkbox>
-      <v-checkbox
-        v-model="ex4"
-        label="Context 2"
-        color="secondary"
-        value="secondary"
-        hide-details
-      >
-      </v-checkbox>
-      <v-checkbox
-        v-model="ex4"
-        label="Context 3"
-        color="success"
-        value="success"
-        hide-details
-      >
-      </v-checkbox>
-      <v-checkbox
-        v-model="ex4"
-        label="Context 4"
-        color="info"
-        value="info"
-        hide-details
-      >
-      </v-checkbox>
-    </v-row>
+  <v-container dense :style="highlight">
+    <v-autocomplete
+      v-model="value"
+      :data="value"
+      :items="doc_cache"
+      multiple
+      dense
+      solo
+      filled
+      clearable
+      deletable-chips
+      label="Select the documents"
+      @change="select_context()"
+    ></v-autocomplete>
+    <v-container style="height: 15vh; overflow-y: auto; overflow-x: hidden">
+      <span v-html="show"> </span>
+    </v-container>
   </v-container>
 </template>
 
 <script>
+import eventBus from "../../main.js";
+
 export default {
   name: "ContextSelector",
   data: () => ({
-    ex4: ["primary", "secondary", "success"],
+    doc_cache: [],
+    value: null,
+    highlight: {
+      backgroundColor: "#ffffff",
+    },
+    show_context: "",
   }),
+  created() {
+    eventBus.$on("context", (type) => {
+      if (type == "image") {
+        this.highlight.backgroundColor = "#ffffff";
+      } else {
+        this.highlight.backgroundColor = "#ffe57f";
+      }
+    });
+    eventBus.$on("doc_cache", (documents) => {
+      this.doc_cache = documents;
+      this.value = [this.doc_cache[this.doc_cache.length - 1]];
+      this.send_context();
+    });
+  },
+  computed: {
+    show() {
+      return this.show_context.replace("\n", "<br />");
+    },
+  },
+  methods: {
+    select_context() {
+      this.send_context();
+      this.highlight.backgroundColor = "#ffe57f";
+    },
+    send_context() {
+      eventBus.$emit("context", "document", this.value);
+      this.show_context = "";
+      this.value.forEach((element) => {
+        this.show_context += element + "\n\n";
+      });
+    },
+  },
 };
 </script>
