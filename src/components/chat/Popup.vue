@@ -137,6 +137,7 @@ export default {
       if (file.type.startsWith("image/")) {
         this.files.push(file);
         eventBus.$emit("img_cache", this.files);
+        this.$emit('uploaded', "이미지");
       } else {
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -148,6 +149,7 @@ export default {
     uploadText(document) {
       this.documents.push(document);
       eventBus.$emit("doc_cache", this.documents);
+      this.$emit('uploaded', "문서");
     },
   },
 };

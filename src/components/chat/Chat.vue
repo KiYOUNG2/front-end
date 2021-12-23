@@ -18,7 +18,7 @@
                   >
                   </v-text-field>
                   <!-- 팝업창 -->
-                  <Popup />
+                  <Popup v-on:uploaded="openSnackbar($event)" />
                   <!-- 메세지 보내기 버튼 -->
                   <v-btn icon class="ml-4" @click="send">
                     <v-icon>mdi-send</v-icon>
@@ -30,6 +30,11 @@
         </v-sheet>
       </v-col>
     </v-row>
+    <v-snackbar v-model="snackbar" :timeout="timeout" color="amber darken-1">
+      <span style="color: black">
+        {{ text }}
+      </span>
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -56,6 +61,9 @@ export default {
     context_type: null,
     image: null,
     document: null,
+    snackbar: false,
+    text: "업로드 완료 메세지",
+    timeout: 3000,
   }),
   mounted: function () {
     this.addImage(this.bot_name, require("../../assets/image/kiyoung2.png"));
@@ -77,7 +85,6 @@ export default {
         this.image = null;
         this.document = "";
         context.forEach((element) => {
-          this.addMessage(this.user_name, element);
           this.document += element + " ";
         });
       }
@@ -125,6 +132,10 @@ export default {
         msg: null,
         img: img_src,
       });
+    },
+    openSnackbar(context) {
+      this.text = `📢 ${context}가 성공적으로 추가되었습니다.`;
+      this.snackbar = true;
     },
   },
 };
